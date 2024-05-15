@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incentive Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group button {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .input-group button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .input-group button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Incentive Calculator</h2>
+        <div class="input-group">
+            <label for="monthlySalary">Monthly Salary:</label>
+            <input type="number" id="monthlySalary" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="totalGTV">Total GTV (Total Gross Transaction Value):</label>
+            <input type="number" id="totalGTV" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="incentivePercentage">Current Slab (%):</label>
+            <input type="number" id="incentivePercentage" step="0.01">
+        </div>
+        <div class="input-group">
+            <label for="targetCrossed">Target Already Crossed This Quarter:</label>
+            <input type="checkbox" id="targetCrossed">
+        </div>
+        <div class="input-group">
+            <button onclick="calculateIncentive()">Calculate Total Incentive</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateIncentive() {
+            const monthlySalary = parseFloat(document.getElementById('monthlySalary').value) || 0;
+            const totalGTV = parseFloat(document.getElementById('totalGTV').value) || 0;
+            const incentivePercentage = parseFloat(document.getElementById('incentivePercentage').value) || 0;
+            const targetCrossed = document.getElementById('targetCrossed').checked;
+
+            const quarterlySalary = monthlySalary * 3;
+            const targetRevenue = quarterlySalary * 5;
+
+            const totalIncentiveFromGTV = totalGTV * (incentivePercentage / 100);
+
+            let totalIncentive = 0;
+
+            if (targetCrossed) {
+                // If the target is already crossed, calculate 40% of the total incentive from GTV
+                totalIncentive = totalIncentiveFromGTV * 0.40;
+            } else {
+                if (totalIncentiveFromGTV <= targetRevenue) {
+                    // If total incentive from GTV is less than or equal to the target, calculate 5% of it
+                    totalIncentive = totalIncentiveFromGTV * 0.05;
+                } else {
+                    // If total incentive from GTV exceeds the target, calculate 5% up to the target and 40% for the excess
+                    const baseIncentive = targetRevenue * 0.05;
+                    const additionalIncentive = (totalIncentiveFromGTV - targetRevenue) * 0.40;
+                    totalIncentive = baseIncentive + additionalIncentive;
+                }
+            }
+
+            document.getElementById('result').innerText = `The total incentive is: ${totalIncentive.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
