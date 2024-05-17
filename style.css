@@ -37,19 +37,6 @@ body {
   font-size: 14px;
 }
 
-
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 50px;
-}
-.container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
 .input-group {
   margin-bottom: 15px;
 }
