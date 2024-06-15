@@ -4,36 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>Incentive Calculator</title>
+  <title>Login</title>
 </head>
 <body>
 
 <div class="container">
-  <h2 id="greeting"></h2> <!-- Display user's name with a random greeting here -->
+  <h2>Login</h2>
   <div class="input-group">
-    <label for="monthlySalary">Monthly Salary:</label>
-    <input type="number" id="monthlySalary" step="0.01" />
+    <label for="employeeId">Employee ID:</label>
+    <input type="text" id="employeeId" />
   </div>
   <div class="input-group">
-    <label for="totalGTV">Total GTV (Total Gross Transaction Value):</label>
-    <input type="number" id="totalGTV" step="0.01" />
+    <button onclick="login()">Login</button>
   </div>
-  <div class="input-group">
-    <label for="incentivePercentage">Current Slab (%):</label>
-    <input type="number" id="incentivePercentage" step="0.01" />
-  </div>
-  <div class="input-group">
-    <label for="targetCrossed">Target Already Crossed This Quarter:</label>
-    <input type="checkbox" id="targetCrossed" />
-  </div>
-  <div class="input-group">
-    <button onclick="calculateIncentive()">Calculate Total Incentive</button>
-  </div>
-  <div class="result" id="result"></div>
-  <div class="input-group">
-    <button onclick="resetForm()">Reset Form</button>
-  </div>
-  <div class="motivational-quote" id="motivationalQuote"></div> <!-- Display motivational quote here -->
+  <div class="error" id="error"></div>
 </div>
 
 <script src="script.js"></script>
@@ -95,49 +79,19 @@
     "SQY47686": "Rushikesh Ramprasad Somwanshi"
   };
 
-  // Function to generate random greetings
-  function generateGreeting() {
-    const greetings = ["Hello", "Hi", "Hey", "Welcome"];
-    return greetings[Math.floor(Math.random() * greetings.length)];
-  }
+  function login() {
+    const employeeId = document.getElementById("employeeId").value;
+    const errorElement = document.getElementById("error");
 
-  // Function to display user's name with a random greeting
-  function displayGreeting() {
-    const employeeId = localStorage.getItem("employeeId");
-    const userName = employees[employeeId];
-    const greetingElement = document.getElementById("greeting");
-    greetingElement.innerText = `${generateGreeting()}, ${userName}!`;
-  }
-
-  // Function to display a motivational quote
-  function displayMotivationalQuote() {
-    const motivationalQuotes = [
-      "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-      "The only way to do great work is to love what you do.",
-      "Believe you can and you're halfway there.",
-      "The secret of getting ahead is getting started.",
-      "Don't watch the clock; do what it does. Keep going.",
-      "It does not matter how slowly you go, as long as you do not stop."
-    ];
-    const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
-    const quoteElement = document.getElementById("motivationalQuote");
-    quoteElement.innerText = randomQuote;
-  }
-
-  // Check if the user is logged in
-  function checkLogin() {
-    const employeeId = localStorage.getItem("employeeId");
-    if (!employeeId) {
-      window.location.href = "login.html";
+    if (!employees[employeeId]) {
+      errorElement.innerText = "Invalid Employee ID. Please enter a valid Employee ID.";
+      return;
     }
-  }
 
-  // Execute functions when the page loads
-  window.onload = function() {
-    checkLogin(); // Check if user is logged in
-    displayGreeting(); // Display user's name with a random greeting
-    displayMotivationalQuote(); // Display motivational quote
-  };
+    localStorage.setItem('employeeId', employeeId);
+    window.location.href = "index.html";
+  }
 </script>
 </body>
 </html>
+

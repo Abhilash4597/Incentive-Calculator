@@ -1,4 +1,5 @@
 // script.js
+
 function calculateIncentive() {
   const monthlySalary = parseFloat(document.getElementById("monthlySalary").value) || 0;
   const totalGTV = parseFloat(document.getElementById("totalGTV").value) || 0;
@@ -45,5 +46,10 @@ function login() {
   }
 
   localStorage.setItem('employeeId', employeeId);
-  window.location.href = `index.html?employeeId=${employeeId}`;
+  window.location.href = "index.html";
+}
+
+// Clear login status on page load to ensure login is required each time
+window.onload = function() {
+  localStorage.removeItem('employeeId');
 }
